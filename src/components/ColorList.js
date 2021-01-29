@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { axiosWithAuth } from '../helpers/axiosWithAuth';
+import AddColor from "./AddColor";
 import EditMenu from './EditMenu';
 
 const initialColor = {
@@ -10,6 +11,7 @@ const initialColor = {
 };
 
 const ColorList = ({ colors, updateColors }) => {
+  const [adding, setAdding] = useState(false);
   const [editing, setEditing] = useState(false);
   const [colorToEdit, setColorToEdit] = useState(initialColor);
 
@@ -74,8 +76,12 @@ const ColorList = ({ colors, updateColors }) => {
           </li>
         ))}
       </ul>
+      <button onClick={(e)=>{
+        e.preventDefault();
+        setAdding(!adding);
+      }}>Add another color</button>
       { editing && <EditMenu colorToEdit={colorToEdit} saveEdit={saveEdit} setColorToEdit={setColorToEdit} setEditing={setEditing}/> }
-
+      { adding && <AddColor addColor={updateColors}/>}
     </div>
   );
 };

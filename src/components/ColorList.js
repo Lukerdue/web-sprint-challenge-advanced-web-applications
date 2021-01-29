@@ -39,7 +39,12 @@ const ColorList = ({ colors, updateColors }) => {
     console.log(color)
     axiosWithAuth().delete(`http://localhost:5000/api/colors/${color.id}`)
     .then(res=>{
-      console.log(res.data)
+      const newColors = colors.filter(color=>{
+        if(color.id !== parseInt(res.data)){
+          return color
+        }
+      })
+      updateColors(newColors)
     })
     .catch(drama=>{
       console.log(drama)

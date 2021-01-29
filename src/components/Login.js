@@ -11,8 +11,6 @@ const Login = () => {
   const [user, setUser] = useState(initialUser);
   const [error, setError] = useState("");
   const history = useHistory()
-  // make a post request to retrieve a token from the api
-  // when you have handled the token, navigate to the BubblePage route
 
   function changeHandler(e){
     setUser({...user,
@@ -27,7 +25,7 @@ const Login = () => {
       history.push('/bubbles')
     })
     .catch(drama=>{
-      setError(JSON.stringify(drama.error))
+      setError("Username or Password not valid")
     })
   }
 
@@ -37,8 +35,12 @@ const Login = () => {
         Welcome to the Bubble App!
       </h1>
         <form onSubmit={submitHandler}>
-          <input type="text" name="username" placeholder="Username" value={user.username} onChange={changeHandler}/>
-          <input type="password" name="password" placeholder="password" value={user.password} onChange={changeHandler}/>
+          <label>username 
+            <input type="text" name="username" placeholder="Username" value={user.username} onChange={changeHandler}/>
+          </label>
+          <label>password 
+            <input type="password" name="password" placeholder="password" value={user.password} onChange={changeHandler}/>
+          </label>
           <button>Go!</button>
         </form>
       <p>{error}</p>

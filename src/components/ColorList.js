@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import axios from "axios";
-import EditMenu from './EditMenu'
+import { useParams } from "react-router-dom";
+import { axiosWithAuth } from '../helpers/axiosWithAuth';
+import EditMenu from './EditMenu';
 
 const initialColor = {
   color: "",
-  code: { hex: "" }
+  code: { hex: "" },
+  id: 0
 };
 
 const ColorList = ({ colors, updateColors }) => {
@@ -18,10 +20,30 @@ const ColorList = ({ colors, updateColors }) => {
 
   const saveEdit = e => {
     e.preventDefault();
-
-  };
+    axiosWithAuth().put(`http://localhost:5000/api/colors/${colorToEdit.id}`, colorToEdit)
+    .then(res=>{
+      const newColors = colors.filter(color=>{
+        if(color.id !== res.data.id){
+          return color
+        }
+      })
+      newColors.push(res.data)
+      updateColors(newColors)
+    })
+    .catch(drama=>{
+      console.log(drama)
+    })
+  }
 
   const deleteColor = color => {
+    console.log(color)
+    axiosWithAuth().delete(`http://localhost:5000/api/colors/${color.id}`)
+    .then(res=>{
+      console.log(res.data)
+    })
+    .catch(drama=>{
+      console.log(drama)
+    })
   };
 
   return (

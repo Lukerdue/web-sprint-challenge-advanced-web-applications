@@ -23,7 +23,7 @@ const Login = () => {
     e.preventDefault();
     axios.post("http://localhost:5000/api/login", user)
     .then(res=>{
-      window.localStorage.setItem("token", res.data);
+      window.localStorage.setItem("token", res.data.payload);
       history.push('/bubbles')
     })
     .catch(drama=>{
